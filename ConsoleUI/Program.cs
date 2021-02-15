@@ -1,11 +1,11 @@
 ﻿using Business.Concrete;
 using System;
-using DataAccess.Concrete.Entity_Framework;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 
 namespace ConsoleUI
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -13,10 +13,12 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            //foreach (var car in carManager.GetAll())
-            //{
-            //    Console.WriteLine("Id: " + car.Id + " BrandId: " + car.BrandId + " ColorId: " + car.ColorId + " Model Year: " + car.ModelYear + " Daily Price: " + car.DailyPrice + " Description: " + car.Description);
-            //}
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine("Car Name : " + car.CarName + "\nBrand Name : " + car.BrandName + "\nColor Name : " + car.ColorName + "\nDail Price : " + car.DailyPrice);
+                Console.WriteLine("-----------------------------------");
+            }
+
             Console.WriteLine("**************************************************** Araba Listesi ****************************************************");
             GetAll(carManager);
             Console.WriteLine("\n====================================== Rent A Car ======================================");
