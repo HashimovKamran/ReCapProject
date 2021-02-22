@@ -72,6 +72,9 @@ namespace ConsoleUI
                     case 3:
                         GetAll(carManager);
 
+                        Console.Write("\nId: ");
+                        int carIdForUpdate = Convert.ToInt32(Console.ReadLine());
+
                         Console.Write("\nBrand Id: ");
                         int brandIdForUpdate = Convert.ToInt32(Console.ReadLine());
 
@@ -87,7 +90,7 @@ namespace ConsoleUI
                         Console.Write("\nModel Year: ");
                         int modelYearForUpdate = Convert.ToInt32(Console.ReadLine());
 
-                        Car carForUpdate = new Car { BrandId = brandIdForUpdate, ColorId = colorIdForUpdate, DailyPrice = dailyPriceForUpdate, Description = descriptionForUpdate, ModelYear = modelYearForUpdate };
+                        Car carForUpdate = new Car { Id = carIdForUpdate, BrandId = brandIdForUpdate, ColorId = colorIdForUpdate, DailyPrice = dailyPriceForUpdate, Description = descriptionForUpdate, ModelYear = modelYearForUpdate };
                         carManager.Update(carForUpdate);
                         break;
 
@@ -125,6 +128,9 @@ namespace ConsoleUI
                     case 7:
                         GetAll(userManager);
 
+                        Console.Write("\nId: ");
+                        int userIdForUpdate = Convert.ToInt32(Console.ReadLine());
+
                         Console.Write("\nFirst Name: ");
                         string firstNameForUpdate = Console.ReadLine();
 
@@ -137,7 +143,7 @@ namespace ConsoleUI
                         Console.Write("\nPassword: ");
                         string passwordForUpdate = Console.ReadLine();
 
-                        User userForUpdate = new User { FirstName = firstNameForUpdate, LastName = lastNameForUpdate, Email = emailForUpdate, Password = passwordForUpdate };
+                        User userForUpdate = new User { Id = userIdForUpdate, FirstName = firstNameForUpdate, LastName = lastNameForUpdate, Email = emailForUpdate, Password = passwordForUpdate };
                         userManager.Update(userForUpdate);
                         break;
 
@@ -171,13 +177,16 @@ namespace ConsoleUI
                         GetAll(customerManager);
                         GetAll(userManager);
 
+                        Console.Write("\nId: ");
+                        int customerIdForUpdate = Convert.ToInt32(Console.ReadLine());
+
                         Console.Write("\nUser Id: ");
-                        int userIdForUpdate = Convert.ToInt32(Console.ReadLine());
+                        int customerUserIdForUpdate = Convert.ToInt32(Console.ReadLine());
 
                         Console.Write("\nCustomer Name: ");
                         string customerNameForUpdate = Console.ReadLine();
 
-                        Customer customerForUpdate = new Customer { UserId = userIdForUpdate, CompanyName = customerNameForUpdate };
+                        Customer customerForUpdate = new Customer { Id = customerIdForUpdate, UserId = customerUserIdForUpdate, CompanyName = customerNameForUpdate };
                         customerManager.Update(customerForUpdate);
                         break;
 
@@ -219,11 +228,14 @@ namespace ConsoleUI
                         GetAll(customerManager);
                         GetAll(rentalManager);
 
+                        Console.Write("\nId: ");
+                        int rentalIdForUpdate = Convert.ToInt32(Console.ReadLine());
+
                         Console.Write("\nCar Id: ");
-                        int carIdForUpdate = Convert.ToInt32(Console.ReadLine());
+                        int rentalCarIdForUpdate = Convert.ToInt32(Console.ReadLine());
 
                         Console.Write("\nCustomer Id: ");
-                        int customerIdForUpdate = Convert.ToInt32(Console.ReadLine());
+                        int rentalCustomerIdForUpdate = Convert.ToInt32(Console.ReadLine());
 
                         Console.Write("\nRent Date: ");
                         DateTime rentDateForUpdate = Convert.ToDateTime(Console.ReadLine());
@@ -231,7 +243,7 @@ namespace ConsoleUI
                         Console.Write("\nReturn Date: ");
                         DateTime returnDateForUpdate = Convert.ToDateTime(Console.ReadLine());
 
-                        Rental rentalForUpdate = new Rental { CarId = carIdForUpdate, CustomerId = customerIdForUpdate, RentDate = rentDateForUpdate, ReturnDate = returnDateForUpdate };
+                        Rental rentalForUpdate = new Rental { Id = rentalIdForUpdate, CarId = rentalCarIdForUpdate, CustomerId = rentalCustomerIdForUpdate, RentDate = rentDateForUpdate, ReturnDate = returnDateForUpdate };
                         rentalManager.Update(rentalForUpdate);
                         break;
 
@@ -293,7 +305,7 @@ namespace ConsoleUI
 
         private static void GetAll(UserManager userManager)
         {
-            Console.WriteLine("**************************************************** Kullanıcı Listesi ****************************************************");
+            Console.WriteLine("*************************************************** Kullanıcı Listesi **************************************************");
             foreach (var user in userManager.GetAll().Data)
             {
                 Console.WriteLine("Id: " + user.Id + " First Name: " + user.FirstName + " Last Name: " + user.LastName + " Email: " + user.Email + " Password: " + user.Password);
