@@ -9,22 +9,20 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class BrandManager : IBrandService
+    public class UserManager : IUserService
     {
-        IBrandDal _brandDal;
-
-        public BrandManager(IBrandDal brandDal)
+        IUserDal _userDal;
+        public UserManager(IUserDal userDal)
         {
-            _brandDal = brandDal;
+            _userDal = userDal;
         }
 
-        public IResult Add(Brand brand)
+        public IResult Add(User user)
         {
-            if (brand.BrandName.Length > 2)
+            if (user.FirstName.Length > 2 && user.LastName.Length > 2)
             {
-                _brandDal.Add(brand);
+                _userDal.Add(user);
                 return new SuccessResult(Messages.Added);
-
             }
             else
             {
@@ -32,29 +30,28 @@ namespace Business.Concrete
             }
         }
 
-        public IResult Delete(Brand brand)
+        public IResult Delete(User user)
         {
-            _brandDal.Delete(brand);
+            _userDal.Delete(user);
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<List<Brand>> GetAll()
+        public IDataResult<List<User>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
+            return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
-        public IDataResult<Brand> GetById(int id)
+        public IDataResult<User> GetById(int Id)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == id));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == Id));
         }
 
-        public IResult Update(Brand brand)
+        public IResult Update(User user)
         {
-            if (brand.BrandName.Length > 2)
+            if (user.FirstName.Length > 2 && user.LastName.Length > 2)
             {
-                _brandDal.Update(brand);
+                _userDal.Update(user);
                 return new SuccessResult(Messages.Updated);
-
             }
             else
             {
