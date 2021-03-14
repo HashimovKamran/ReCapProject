@@ -19,6 +19,7 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
+
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
