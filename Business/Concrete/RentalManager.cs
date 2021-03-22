@@ -5,6 +5,7 @@ using Core.Aspect.Autofac.Validation;
 using Core.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,18 +24,19 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            var result = CheckReturnDate(rental.CarId);
+            var result = CheckReturnDate(rental.CarId, rental.CustomerId);
             if (result.Success)
             {
+                rental.RentDate = DateTime.Now;
                 _rentalDal.Add(rental);
                 return new SuccessResult(result.Message);
             }
             return new ErrorResult(result.Message);
         }
 
-        public IResult CheckReturnDate(int carId)
+        public IResult CheckReturnDate(int carId, int customerId)
         {
-            var result = _rentalDal.GetRentalDetails(r => r.CarId == carId && r.ReturnDate == null);
+            var result = _rentalDal.GetRentalDetails(r => r.CarId == carId && r.CustomerId == customerId && r.ReturnDate == null);
             if (result.Count > 0)
             {
                 return new ErrorResult(Messages.IsInvalid);
@@ -58,8 +60,14 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == Id));
         }
 
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+        }
+
         public IResult Update(Rental rental)
         {
+            rental.ReturnDate = DateTime.Now;
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.Updated);
         }
