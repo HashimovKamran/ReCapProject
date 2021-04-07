@@ -2,6 +2,7 @@
 using System;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Core.Entities.Concrete;
 
 namespace ConsoleUI
 {
@@ -113,7 +114,7 @@ namespace ConsoleUI
                         Console.Write("\nPassword: ");
                         string passwordForAdd = Console.ReadLine();
 
-                        User userForAdd = new User { FirstName = firstNameForAdd, LastName = lastNameForAdd, Email = emailForAdd, Password = passwordForAdd };
+                        User userForAdd = new User { FirstName = firstNameForAdd, LastName = lastNameForAdd, Email = emailForAdd };
                         userManager.Add(userForAdd);
                         break;
 
@@ -143,7 +144,7 @@ namespace ConsoleUI
                         Console.Write("\nPassword: ");
                         string passwordForUpdate = Console.ReadLine();
 
-                        User userForUpdate = new User { Id = userIdForUpdate, FirstName = firstNameForUpdate, LastName = lastNameForUpdate, Email = emailForUpdate, Password = passwordForUpdate };
+                        User userForUpdate = new User { Id = userIdForUpdate, FirstName = firstNameForUpdate, LastName = lastNameForUpdate, Email = emailForUpdate };
                         userManager.Update(userForUpdate);
                         break;
 
@@ -308,7 +309,7 @@ namespace ConsoleUI
             Console.WriteLine("*************************************************** Kullanıcı Listesi **************************************************");
             foreach (var user in userManager.GetAll().Data)
             {
-                Console.WriteLine("Id: " + user.Id + " First Name: " + user.FirstName + " Last Name: " + user.LastName + " Email: " + user.Email + " Password: " + user.Password);
+                Console.WriteLine("Id: " + user.Id + " First Name: " + user.FirstName + " Last Name: " + user.LastName + " Email: " + user.Email + " PasswordHash: " + user.PasswordHash);
             }
         }
 
