@@ -50,6 +50,7 @@ namespace WebAPI
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                 };

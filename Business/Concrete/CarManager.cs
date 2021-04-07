@@ -29,6 +29,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("car.delete,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Delete(Car car)
         {
@@ -36,7 +37,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        //[SecuredOperation("car.getall,admin")]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
@@ -62,6 +62,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == colorId));
         }
 
+        [SecuredOperation("car.update,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {

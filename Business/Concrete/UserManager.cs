@@ -8,6 +8,8 @@ using Core.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Business.BusinessAspects.Autofac;
+using Core.Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -19,6 +21,7 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
+        [SecuredOperation("user.add,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
@@ -26,6 +29,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("user.delete,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Delete(User user)
         {
@@ -48,11 +52,12 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
 
-        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        public IDataResult<List<OperationClaimDetailDto>> GetClaims(User user)
         {
-            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
+            return new SuccessDataResult<List<OperationClaimDetailDto>>(_userDal.GetClaims(user));
         }
 
+        [SecuredOperation("user.update,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
