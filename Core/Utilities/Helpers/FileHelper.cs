@@ -70,7 +70,7 @@ namespace Core.Utilities.Helpers
             FileInfo fileName = new FileInfo(file.FileName);
             string fileExtension = fileName.Extension;
 
-            string path = Environment.CurrentDirectory + @"\Images";
+            string path = Environment.CurrentDirectory + @"\wwwroot\Images";
             var newPath = Guid.NewGuid().ToString() + fileExtension;
 
             string result = $@"{path}\{newPath}";

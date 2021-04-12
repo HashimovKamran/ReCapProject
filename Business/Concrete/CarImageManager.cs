@@ -28,9 +28,9 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        [SecuredOperation("carImage.add,admin")]
+        //[SecuredOperation("carImage.add,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
-        [CacheRemoveAspect("ICarImageService.Get")]
+        //[CacheRemoveAspect("ICarImageService.Get")]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckCarImageLimitExceeded(carImage.CarId));
@@ -55,12 +55,13 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [SecuredOperation("carImage.delete,admin")]
+        //[SecuredOperation("carImage.delete,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
-        [CacheRemoveAspect("ICarImageService.Get")]
+        //[CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
-            FileHelper.Delete(carImage.ImagePath);
+            var result = _carImageDal.Get(p => p.Id == carImage.Id);
+            FileHelper.Delete(result.ImagePath);
             _carImageDal.Delete(carImage);
             return new SuccessResult();
         }
@@ -71,13 +72,13 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == id));
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
         {
             IResult result = BusinessRules.Run(CheckCarImageDefault(carId));
@@ -93,7 +94,7 @@ namespace Business.Concrete
         {
             try
             {
-                string path = @"\images\default.png";
+                string path = @"\Images\default.png";
                 var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
                 if (!result)
                 {
@@ -111,7 +112,7 @@ namespace Business.Concrete
 
         [SecuredOperation("carImage.update,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
-        [CacheRemoveAspect("ICarImageService.Get")]
+        //[CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckCarImageLimitExceeded(carImage.CarId));

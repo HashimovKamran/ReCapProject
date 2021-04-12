@@ -6,11 +6,13 @@ using Core.Aspect.Autofac.Caching;
 using Core.Aspect.Autofac.Validation;
 using Core.Aspects.Autofac.Caching;
 using Core.Result;
+using Core.Utilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -18,9 +20,12 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        ICarImageDal _carImageDal;
+
+        public CarManager(ICarDal carDal, ICarImageDal carImageDal)
         {
             _carDal = carDal;
+            _carImageDal = carImageDal;
         }
 
         [SecuredOperation("car.add,admin")]
@@ -46,6 +51,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
+        public IDataResult<List<CarDetailDto>> GetAllById(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetAllById(c => c.Id == id));
+        }
+        
         [CacheAspect]
         public IDataResult<Car> GetById(int id)
         {
@@ -56,6 +66,11 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Listed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsById(int carId)
+        {
+            throw new NotImplementedException();
         }
 
         //[CacheAspect]
